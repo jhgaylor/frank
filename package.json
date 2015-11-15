@@ -1,0 +1,22 @@
+{
+  "name": "frank",
+  "version": "0.0.1",
+  "description": "A tool for Frank to communicate with his gym's clients.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jhgaylor/frank.git"
+  },
+  "keywords": [
+    "twilio"
+  ],
+  "author": "Jake Gaylor <jhgaylor@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jhgaylor/frank/issues"
+  },
+  "homepage": "https://github.com/jhgaylor/frank"
+}
