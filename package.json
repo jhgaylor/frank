@@ -18,5 +18,9 @@
   "bugs": {
     "url": "https://github.com/jhgaylor/frank/issues"
   },
-  "homepage": "https://github.com/jhgaylor/frank"
+  "homepage": "https://github.com/jhgaylor/frank",
+  "dependencies": {
+    "mongodb": "^2.0.48",
+    "twilio": "^2.5.2"
+  }
 }
