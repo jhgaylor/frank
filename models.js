@@ -30,10 +30,14 @@ function makeClient (db, client) {
 
   client.sendSMS = function (milestone, cb) {
     var message = client.name + ", you are at milestone: " + milestone;
-    SMS.send(client.phoneNumber, message, function (error) {
+    SMS.send(client.phoneNumber, message, function (error, responseData) {
       if (error) {
         throw error;
       }
+      // "responseData" is a JavaScript object containing data received from Twilio.
+      // A sample response from sending an SMS message is here (click "JSON" to see how the data appears in JavaScript):
+      // http://www.twilio.com/docs/api/rest/sending-sms#example-1
+
       // this syntax is needed for the mongodb query so that we update a single field 
       // of a subdocument rather than replacing the subdocument
       var fieldString = 'wasSentSMS.' + milestone
