@@ -4,7 +4,7 @@
 // * Use flags for which sms have been sent so as to not double send
 var Database = require('./db');
 var Models = require('./models');
-
+var SMS = require('./sms');
 var dayInMilliseconds = 60*60*24*1000;
 var intervalHandle;
 
@@ -14,8 +14,11 @@ function start () {
   Database.getDB(function (db) {
     // attempt to sms clients who need to receive one today, or log an error
     getAndSMSClients(db);
+    getPendingResponses(db);
+
     intervalHandle = setInterval(function () {
       getAndSMSClients(db);
+      getPendingResponses(db);
     }, dayInMilliseconds);
   });
 }
@@ -78,5 +81,43 @@ function smsTodaysClients (clients) {
         }
       }
     }
+  });
+}
+
+function getPendingResponses (db) {
+  Models.getAllClients(db, function (clients) {
+    var clientPhoneNumbers = clients.map(function (client) {
+      return client.phoneNumber;
+    });
+    SMS.client.messages.list(function (err, data) {
+      data.messages.forEach(function (message) {
+        var messageIsFromClient = (clientPhoneNumbers.indexOf(message.from) > -1);
+        if (messageIsFromClient) {
+          handleIncomingClientMessage(db, message);
+        }
+      });
+    });
+  });
+}
+
+function handleIncomingClientMessage (db, message) {
+  Models.getClientByNumber(db, message.from, function (client) {
+    if (! client) {
+      console.log("No client found for this number. Weird.");
+      return;
+    }
+    var responseIds = client.responses.map(function (response) {
+      return response.sid;
+    });
+    if (responseIds.indexOf(message.sid) > -1) {
+      // we've already dealt with this message;
+      return;
+    }
+    var response = {
+      sid: message.sid,
+      body: message.body,
+      created: message.date_created
+    };
+    client.recordResponse(response);
   });
 }
