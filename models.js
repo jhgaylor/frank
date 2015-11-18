@@ -1,12 +1,24 @@
 var SMS = require('./sms');
 
-function getAllClients (db, cb) {
+function getClients (db, operator, cb) {
   var collection = db.collection('clients');
-  collection.find({}).toArray(function (err, docs) {
+  collection.find(operator).toArray(function (err, docs) {
     var clients = docs.map(function (doc) {
       return makeClient(db, doc);
     });
     cb(clients);
+  });
+}
+
+function getAllClients (db, cb) {
+  getClients(db, {}, cb);
+}
+
+function getClientByNumber (db, number, cb) {
+  getClients(db, {
+    phoneNumber: number
+  }, function (clients) {
+    cb(clients && clients[0] || null);
   });
 }
 
@@ -53,5 +65,6 @@ function makeClient (db, client) {
 
 module.exports = {
   getAllClients: getAllClients,
+  getClientByNumber: getClientByNumber,
   Client: makeClient
 };
