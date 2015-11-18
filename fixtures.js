@@ -2,7 +2,8 @@ var Database = require('./db');
 var Client = require('./models').Client;
 
 var joe = {
-  phoneNumber: "joe",
+  name: "joe",
+  phoneNumber: "+15555555555",
   signupDate: new Date("03/22/2015"),
   wasSentSMS: {
     weekOne: false,
@@ -12,8 +13,9 @@ var joe = {
 };
 
 var sue = {
-  phoneNumber: "sue",
-  signupDate: new Date("10/22/2015"),
+  name: "sue",
+  phoneNumber: "+15555555555",
+  signupDate: new Date("10/09/2015"),
   wasSentSMS: {
     weekOne: false,
     monthOne: false,
@@ -22,7 +24,8 @@ var sue = {
 };
 
 var bob = {
-  phoneNumber: "bob",
+  name: "bob",
+  phoneNumber: "+15555555555",
   signupDate: new Date("11/09/2015"),
   wasSentSMS: {
     weekOne: false,
@@ -32,7 +35,8 @@ var bob = {
 };
 
 var karen = {
-  phoneNumber: "karen",
+  name: "karen",
+  phoneNumber: "+15555555555",
   signupDate: new Date("11/16/2015"),
   wasSentSMS: {
     weekOne: false,
