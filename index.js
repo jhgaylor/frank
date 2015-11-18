@@ -53,13 +53,16 @@ function smsTodaysClients (clients) {
 
   var mileStones = [{
     date: aWeekAgo,
-    name: 'weekOne'
+    name: 'weekOne',
+    message: "You've been coming for a week now. Did you find your training sessions productive? Are you looking forward to next week?"
   }, {
     date: aMonthAgo,
-    name: 'monthOne'
+    name: 'monthOne',
+    message: "Thank you for being a member for a month. Are you comfortable in the gym? Would you recommend us to a friend?"
   }, {
     date: threeMonthsAgo,
-    name: 'monthThree'
+    name: 'monthThree',
+    message: "You are three months in and going strong. How likely are you to recommend us to a friend? 1 (Never) to 10 (Always Do)"
   }];
 
   clients.forEach(function (client) {
@@ -70,7 +73,7 @@ function smsTodaysClients (clients) {
       var milestone = mileStones[key];
       if (! client.wasSentSMS[milestone.name]) {
         if (client.signupDate < milestone.date) {
-          client.sendSMS(milestone.name);
+          client.sendSMS(milestone);
           break;
         }
       }
