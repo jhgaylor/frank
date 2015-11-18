@@ -40,6 +40,14 @@ function makeClient (db, client) {
     }
   }
 
+  client.recordResponse = function (response, cb) {
+    collection.updateOne({_id: client._id}, {
+      $addToSet: {
+        responses: response
+      }
+    }, cb);
+  }
+
   client.sendSMS = function (milestone, cb) {
     SMS.send(client.phoneNumber, client.name + ", " + milestone.message, function (error, responseData) {
       if (error) {
