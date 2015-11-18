@@ -41,6 +41,14 @@ function makeClient (db, client) {
   }
 
   client.recordResponse = function (response, cb) {
+    // attempt to figure out which milestone this was for
+    if (client.wasSentSMS.monthThree) {
+      response.milestone = "monthThree";
+    } else if (client.wasSentSMS.monthOne) {
+      response.milestone = "monthOne";
+    } else {
+      response.milestone = "weekOne";
+    }
     collection.updateOne({_id: client._id}, {
       $addToSet: {
         responses: response
@@ -51,6 +59,7 @@ function makeClient (db, client) {
   client.sendSMS = function (milestone, cb) {
     SMS.send(client.phoneNumber, client.name + ", " + milestone.message, function (error, responseData) {
       if (error) {
+        console.log("failed to send sms", error, error.stack);
         throw error;
       }
       // "responseData" is a JavaScript object containing data received from Twilio.
