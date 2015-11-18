@@ -29,8 +29,7 @@ function makeClient (db, client) {
   }
 
   client.sendSMS = function (milestone, cb) {
-    var message = client.name + ", you are at milestone: " + milestone;
-    SMS.send(client.phoneNumber, message, function (error, responseData) {
+    SMS.send(client.phoneNumber, client.name + ", " + milestone.message, function (error, responseData) {
       if (error) {
         throw error;
       }
@@ -40,7 +39,7 @@ function makeClient (db, client) {
 
       // this syntax is needed for the mongodb query so that we update a single field 
       // of a subdocument rather than replacing the subdocument
-      var fieldString = 'wasSentSMS.' + milestone
+      var fieldString = 'wasSentSMS.' + milestone.name
       var operation = {
         $set: {}
       };
