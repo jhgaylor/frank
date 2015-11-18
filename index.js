@@ -24,7 +24,7 @@ function start () {
 }
 
 function restart (error) {
-  console.log(error.stack);
+  console.log("Error: ", error.stack);
   clearInterval(intervalHandle);
   start();
 }
@@ -67,7 +67,6 @@ function smsTodaysClients (clients) {
     name: 'monthThree',
     message: "You are three months in and going strong. How likely are you to recommend us to a friend? 1 (Never) to 10 (Always Do)"
   }];
-
   clients.forEach(function (client) {
     // Note that this relies on the order of the milestones. That is why
     // we are use an array of milestones rather than a map.
@@ -113,11 +112,6 @@ function handleIncomingClientMessage (db, message) {
       // we've already dealt with this message;
       return;
     }
-    var response = {
-      sid: message.sid,
-      body: message.body,
-      created: message.date_created
-    };
-    client.recordResponse(response);
+    client.recordResponse(message);
   });
 }
