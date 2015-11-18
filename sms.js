@@ -28,5 +28,6 @@ function send (number, message, cb) {
 }
 
 module.exports = {
+  client: Twilio,
   send: send
 }
