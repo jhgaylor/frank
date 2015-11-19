@@ -119,7 +119,7 @@ function makeClient (db, client) {
       var operation = {
         $set: {}
       };
-      operation.$set[fieldString] = true;
+      operation.$set[fieldString] = new Date;
       collection.updateOne({_id: client._id}, operation);
     });
   }
